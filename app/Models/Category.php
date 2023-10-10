@@ -10,4 +10,15 @@ class Category extends Model
     use HasFactory;
 
     protected $fillable = ['name', 'cat_details'];
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class, 'category_id');
+    }
+
+    public function getPostCountAttribute()
+    {
+        return $this->posts->count();
+    }
+
 }

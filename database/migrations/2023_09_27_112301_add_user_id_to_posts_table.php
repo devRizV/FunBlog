@@ -12,7 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('posts', function (Blueprint $table) {
-            //
+            $table->unsignedBigInteger('user_id')->default(0);
+
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
@@ -22,7 +24,10 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('posts', function (Blueprint $table) {
-            //
+            // removes foreign constraints
+            $table->dropForeign(['user_id']);
+            // removes user_id column
+            $table->dropColumn(['user_id']);
         });
     }
 };

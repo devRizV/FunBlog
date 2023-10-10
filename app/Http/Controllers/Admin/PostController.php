@@ -6,19 +6,22 @@ use App\Http\Requests\Admin\StorePostRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $posts = Post::all();
-
+    
         return view('posts.index', compact('posts'));
     }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -26,8 +29,9 @@ class PostController extends Controller
     public function create()
     {
         $categories = Category::all();
+        $users  = User::all();
 
-        return view('posts.create', compact('categories'));
+        return view('posts.create', compact('categories', 'users'));
     }
 
     /**
@@ -35,10 +39,14 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
+        $user_id = auth()->user()->id;
+        //  dd($user_id);
+
         Post::create([
             'title' => $request->input('title'),
             'post_body' => $request->input('post_body'),
             'category_id' => $request->input('category_id'),
+            'user_id'   => $user_id,
         ]);
 
         return redirect()->route('posts.index');

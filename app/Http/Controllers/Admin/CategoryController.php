@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -74,5 +75,11 @@ class CategoryController extends Controller
     {
         $category->delete();
         return redirect()->route('categories.index');
+    }
+
+    public function getCategoryCount() {
+         $categoriesCount = Categoty::count();
+
+         return $categoriesCount;
     }
 }

@@ -12,7 +12,8 @@ class DashboardController extends Controller
     public function index() {
         $categoriesCount = Category::count();
         $postsCount = Post::count();
+        $usersCount = User::count();
 
-        return view('dashboard', compact('categoriesCount', 'postsCount'));
+        return view('dashboard', compact('categoriesCount', 'postsCount', 'usersCount'));
     }
 }
